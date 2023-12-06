@@ -5,7 +5,7 @@ class Features {
   }
 
   filter() {
-    const queryObj = { ...this.queryString };
+    const queryObj = Object.assign(this.queryString);
     const paramsExcluded = ['page', 'sort', 'limit', 'fields'];
     paramsExcluded.forEach((el) => delete queryObj[el]);
 
