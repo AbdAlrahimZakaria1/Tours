@@ -44,8 +44,18 @@ const userSchema = new mongoose.Schema({
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,
+  active: {
+    type: Boolean,
+    select: false,
+  },
 });
 
+userSchema.pre(/^find/, function (next) {
+  this.find({ active: { $ne: false } });
+  next();
+});
+
+// encrypting passwords
 userSchema.pre('save', async function (next) {
   // Only run this function if the password has actually been modified
   if (!this.isModified('password')) return next();
@@ -57,6 +67,7 @@ userSchema.pre('save', async function (next) {
   this.passwordConfirm = undefined;
 });
 
+// this is for modifying passwordChangedAt when changing passwords
 userSchema.pre('save', function (next) {
   if (!this.isModified('password') || this.isNew) return next();
 
