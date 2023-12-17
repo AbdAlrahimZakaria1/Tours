@@ -17,7 +17,7 @@ mongoose.connect(DB).then(() => {
 const importData = async () => {
   try {
     const tours = await JSON.parse(
-      fs.readFileSync(`${__dirname}/tours-simple.json`, 'utf-8'),
+      fs.readFileSync(`${__dirname}/tours.json`, 'utf-8'),
     );
     await Tour.create(tours);
     console.log('Data has been successfully imported!');
