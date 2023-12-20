@@ -1,6 +1,7 @@
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
+const factory = require('./handlerFactory');
 
 const filterObj = (obj, ...allowedFields) => {
   const newObj = {};
@@ -10,24 +11,10 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
-exports.getAllUsers = catchAsync(async (req, res, next) => {
-  const users = await User.find();
-  res.status(200).json({
-    status: 'success',
-    users,
-  });
-});
-
 exports.createUser = (req, res) => {
   res.status(500).json({
     status: 'error',
-    message: 'This route is not defined yet!',
-  });
-};
-exports.getUser = (req, res) => {
-  res.status(500).json({
-    status: 'error',
-    message: 'This route is not defined yet!',
+    message: 'This route is not defined! please use /signup instead.',
   });
 };
 
@@ -66,3 +53,9 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
     status: 'success',
   });
 });
+
+exports.deleteUser = factory.deleteOne(User);
+exports.getAllUsers = factory.getAll(User);
+exports.getUser = factory.getOne(User);
+// THIS ONE DOESN'T RUN PASSOWRD VADLIDATORS!!!
+exports.updateUser = factory.updateOne(User);
