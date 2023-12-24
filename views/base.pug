@@ -1,0 +1,23 @@
+doctype html
+html
+    head 
+        link(rel='stylesheet' href='css/style.css')
+        link(rel='shortcut icon' href='img/favicon/png')
+        link(href='https://fonts.googleapis.com/css?family=Lato:300,300i,700' rel='stylesheet')
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+
+        title Natours | #{title}
+
+
+    body 
+        // Header
+        include _header
+
+        // Content
+        block content
+            h1 this is a placeholder heading 
+        
+
+        // Footer
+        include _footer
