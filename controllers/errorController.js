@@ -23,33 +23,53 @@ const handleInvalidJWTError = () =>
 const handleJWTExpiredTokenError = () =>
   new AppError('Token has expired, please log in again!', 401);
 
-const sendErrorDev = (err, res) => {
-  res.status(err.statusCode).json({
-    status: err.status,
-    error: err,
-    message: err.message,
-    stack: err.stack,
-  });
+const sendErrorDev = (err, req, res) => {
+  // A) API
+  if (req.originalUrl.startsWith('/api')) {
+    return res.status(err.statusCode).json({
+      status: err.status,
+      error: err,
+      message: err.message,
+      stack: err.stack,
+    });
+  }
+  // RENDERED ERROR
+  return res
+    .status(err.statusCode)
+    .render('error', { title: 'Something went wrong', msg: err.message });
 };
 
-const sendErrorProd = (err, res) => {
-  // Operational, Trusted error: send message to client.
-  if (err.isOperational) {
-    res.status(err.statusCode).json({
-      status: err.status,
-      message: err.message,
-    });
+const sendErrorProd = (err, req, res) => {
+  // A) API error handling
+  if (req.originalUrl.startsWith('/api')) {
+    // Operational, Trusted error: send message to client.
+    if (err.isOperational) {
+      return res.status(err.statusCode).json({
+        status: err.status,
+        message: err.message,
+      });
+    }
     // Programming or unknown error: don't send details to client
-  } else {
-    // 1) Log error
-    // console.error(err);
-
     // 2) send generic response
-    res.status(500).json({
+    return res.status(500).json({
       status: 'error',
       message: 'Something went very wrong!',
     });
   }
+
+  // B) RENDERED ERROR error handling
+  if (err.isOperational) {
+    return res.status(500).render('error', {
+      title: 'Something went wrong',
+      msg: err.message,
+    });
+  }
+  // Programming or unknown error: don't send details to client
+  // 2) send generic response
+  return res.status(500).render('error', {
+    title: 'Something went wrong',
+    msg: 'Please try again later.',
+  });
 };
 
 module.exports = (err, req, res, next) => {
@@ -57,7 +77,7 @@ module.exports = (err, req, res, next) => {
   err.status = err.statusCode || 'error';
 
   if (process.env.NODE_ENV === 'development') {
-    sendErrorDev(err, res);
+    sendErrorDev(err, req, res);
   } else if (process.env.NODE_ENV === 'production') {
     let error = Object.assign(err);
 
@@ -72,6 +92,6 @@ module.exports = (err, req, res, next) => {
       error = handleJWTExpiredTokenError();
 
     console.log(err);
-    sendErrorProd(error, res);
+    sendErrorProd(error, req, res);
   }
 };
