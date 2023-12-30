@@ -1,4 +1,0 @@
--- 3 main pages
-1- main page - show all products - pagination
-2- category page
-3- products page
