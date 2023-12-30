@@ -6,9 +6,9 @@ headers.header
     nav.nav.nav--user 
         if user
             a.nav__el.nav__el--logout(href='#') Logout 
-            a.nav__el(href='#')
+            a.nav__el(href='/me')
                 img.nav__user-img(src=`/img/users/${user.photo}` alt=`Photo of user ${user.name}`)
                 span= user.name.split(' ')[0] 
         else
-            a.nav__el(href='/login') Log ing 
+            a.nav__el(href='/login') Log in 
             a.nav__el.nav__el--cta(href='/singup') Sign up

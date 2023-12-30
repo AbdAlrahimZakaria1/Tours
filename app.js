@@ -79,6 +79,7 @@ app.use(
 app.use(express.json({ limit: '10kb' }));
 // cookie parser, reading cookie from req.cookies
 app.use(cookieParse());
+app.use(express.urlencoded({ limit: '10kb', extended: true }));
 
 // Data sanitization against NoSQL query injections
 app.use(mongoSanitize());
