@@ -9,7 +9,6 @@ exports.getOverview = catchAsync(async (req, res, next) => {
 });
 
 exports.getMyTours = catchAsync(async (req, res, next) => {
-  console.log(123);
   // 1) get tours based on user
   const bookings = await Booking.find({ user: req.user.id });
 

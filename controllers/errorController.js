@@ -51,6 +51,7 @@ const sendErrorProd = (err, req, res) => {
     }
     // Programming or unknown error: don't send details to client
     // 2) send generic response
+    console.error('ERROR', err);
     return res.status(500).json({
       status: 'error',
       message: 'Something went very wrong!',
@@ -66,6 +67,7 @@ const sendErrorProd = (err, req, res) => {
   }
   // Programming or unknown error: don't send details to client
   // 2) send generic response
+  console.error('ERROR', err);
   return res.status(500).render('error', {
     title: 'Something went wrong',
     msg: 'Please try again later.',
@@ -91,7 +93,6 @@ module.exports = (err, req, res, next) => {
     if (error.name === 'TokenExpiredError')
       error = handleJWTExpiredTokenError();
 
-    console.log(err);
     sendErrorProd(error, req, res);
   }
 };
