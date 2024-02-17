@@ -70,6 +70,7 @@ app.use(
           'https://*.cloudflare.com/',
           'https://bundle.js:*',
           'ws://127.0.0.1:*/',
+          'https://natours-abdalrahimzakaria.onrender.com/',
         ],
         upgradeInsecureRequests: [],
       },
