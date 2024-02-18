@@ -13,4 +13,3 @@ Built with modern web technologies:
 Front-end: HTML, CSS, Javascript & Pug
 
 Back-end: NodeJS, MongoDB atlas & Mongoose
-
