@@ -10,7 +10,7 @@ password: `testuser`
 
 Built with modern web technologies: 
 
-Front-end: HTML, CSS, JAVSCRIPT & PUG
+Front-end: HTML, CSS, Javascript & Pug
 
 Back-end: NodeJS, MongoDB atlas & Mongoose
 
